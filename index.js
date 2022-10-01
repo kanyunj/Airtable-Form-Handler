@@ -12,7 +12,7 @@ async function handleRequest(request) {
     return submitHandler(request)
   }
 
-  return Response.redirect(FORM_URL)
+  // return Response.redirect(FORM_URL)
 }
 
 const submitHandler = async request => {
