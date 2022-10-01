@@ -51,7 +51,7 @@ const submitHandler = async request => {
   try {
     const output = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE_NAME)}`, {
       method: 'POST',
-      body: JSON.stringify(body),
+      body: JSON.stringify(reqBody),
       headers: {
         Authorization: `Bearer ${AIRTABLE_API_KEY}`,
         'Content-type': `application/json`
