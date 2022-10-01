@@ -58,12 +58,14 @@ const submitHandler = async request => {
       }
     }).then(response => response.json())
     
-    return new Response(JSON.stringify(output, null, 2), {
+    let pretty = JSON.stringify([...body], null, 2);
+
+    return new Response(pretty, {
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
-     },
-     });
-     
+      },
+    });
+
   }catch(err) {
     return new Response(`Error airtable error ${err}`, { status: 400 });
   }
