@@ -3,7 +3,7 @@ addEventListener('fetch', event => {
 
 })
 
-const FORM_URL = "https://airtable-form-example.pages.dev"
+const FORM_URL = "https://airtable-form-handler.kanyan.workers.dev"
 
 async function handleRequest(request) {
   const url = new URL(request.url)
@@ -11,6 +11,7 @@ async function handleRequest(request) {
   if (url.pathname === "/submit") {
     return submitHandler(request)
   }
+
   return Response.redirect(FORM_URL)
 }
 
@@ -20,7 +21,9 @@ const submitHandler = async request => {
       status: 405
     })
   }
+
   const body = await request.formData();
+
   const {
     first_name,
     last_name,
@@ -30,8 +33,7 @@ const submitHandler = async request => {
     message
   } = Object.fromEntries(body)
 
-  // The keys in "fields" are case-sensitive, and should exactly match the field names you set up in your Airtable table, such as "First Name".
-
+  // The keys in "fields" are case-sensitive, and  // should exactly match the field names you set up  // in your Airtable table, such as "First Name".
   const reqBody = {
     fields: {
       "First Name": first_name,
@@ -42,25 +44,18 @@ const submitHandler = async request => {
       "Message": message
     }
   }
+
   await createAirtableRecord(reqBody)
   return Response.redirect(FORM_URL)
-
 }
 
 const createAirtableRecord = body => {
-  try {
-    return fetch(`https://api.airtable.com/v0/${appsJIHjbZQXuKqlH}/${encodeURIComponent(tbl7cR6YrR42aID2t)}`, {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: {
-        Authorization: `Bearer ${AIRTABLE_API_KEY}`,
-        'Content-type': `application/json`
-      }
-    })
-  } catch {
-    return new Response(`Error airtable error ${err}`, { status: 400 });
-  }
-
+  return fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE_NAME)}`, {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: {
+      Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+      'Content-type': `application/json`
+    }
+  })
 }
-
-
