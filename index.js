@@ -45,17 +45,28 @@ const submitHandler = async request => {
     }
   }
 
-  await createAirtableRecord(reqBody)
-  return Response.redirect(FORM_URL)
+  // await createAirtableRecord(reqBody)
+  // return Response.redirect(FORM_URL)
+  const output = await createAirtableRecord(reqBody);
+ 
+  return new Response(JSON.stringify(output, null, 2), {
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+   },
+   });
 }
 
 const createAirtableRecord = body => {
-  return fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE_NAME)}`, {
-    method: 'POST',
-    body: JSON.stringify(body),
-    headers: {
-      Authorization: `Bearer ${AIRTABLE_API_KEY}`,
-      'Content-type': `application/json`
-    }
-  })
+  try {
+    return fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE_NAME)}`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+        'Content-type': `application/json`
+      }
+    }).then(response => response.json())
+  }catch(err) {
+    return new Response(`Error airtable error ${err}`, { status: 400 });
+  }
 }
