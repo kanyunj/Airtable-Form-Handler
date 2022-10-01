@@ -1,0 +1,9 @@
+name = "airtable-form-handler"
+type = "javascript"
+
+account_id = "eb8aad565e3bfef48fdeade9d8b2c3ea"
+workers_dev = true
+route = ""
+zone_id = ""
+compatibility_date = "2022-09-03"
+
