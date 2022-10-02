@@ -22,7 +22,7 @@ const submitHandler = async request => {
     })
   }
   
-  
+  sendEmail(request);
 
   const body = await request.formData();
   const {
@@ -47,8 +47,7 @@ const submitHandler = async request => {
   }
 
   await createAirtableRecord(reqBody)
-  // return Response.redirect(FORM_URL)
-  sendEmail(request);
+  return Response.redirect(FORM_URL)
 
 }
 
